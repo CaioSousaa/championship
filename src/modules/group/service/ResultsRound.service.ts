@@ -39,21 +39,21 @@ export class ResultsRoundService {
     switch (rounds) {
       case 0:
         for (let i = 0; i < 2; i++) {
-          const [teamA, teamB] = groupData.clashes[i].split('x');
+          const [teamA, teamB] = groupData.clashes[i].split(' x ');
           nameTeams.push(teamA, teamB);
         }
         break;
 
       case 1:
         for (let i = 2; i < 4; i++) {
-          const [teamA, teamB] = groupData.clashes[i].split('x');
+          const [teamA, teamB] = groupData.clashes[i].split(' x ');
           nameTeams.push(teamA, teamB);
         }
         break;
 
       case 2:
         for (let i = 4; i < 6; i++) {
-          const [teamA, teamB] = groupData.clashes[i].split('x');
+          const [teamA, teamB] = groupData.clashes[i].split(' x ');
           nameTeams.push(teamA, teamB);
         }
         break;

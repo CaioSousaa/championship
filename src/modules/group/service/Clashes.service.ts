@@ -19,7 +19,7 @@ export class ClashesService {
     const clashes = [];
     for (let i = 0; i < teams.length; i++) {
       for (let j = i + 1; j < teams.length; j++) {
-        const clash = `${teams[i].name}x${teams[j].name}`;
+        const clash = `${teams[i].name} x ${teams[j].name}`;
         clashes.push(clash);
       }
     }
@@ -60,7 +60,7 @@ export class ClashesService {
       usedTeams.clear();
 
       for (let i = 0; i < clashes.length; i++) {
-        const [teamA, teamB] = clashes[i].split('x');
+        const [teamA, teamB] = clashes[i].split(' x ');
 
         if (!usedTeams.has(teamA) && !usedTeams.has(teamB)) {
           round.push(clashes[i]);
