@@ -1,0 +1,40 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Teams {
+  id            String @id @unique @default(uuid())
+  name          String @unique
+  country       String
+  inGroup       Boolean @default(false)
+  qtdGames      Int @default(0)
+  victories     Int @default(0)
+  draws         Int @default(0)
+  defeats       Int @default(0)
+  points        Int @default(0)
+  scoredGoals   Int @default(0)
+  goalsBalance  Int @default(0)
+  concededGoals Int @default(0)
+  created_at    DateTime
+  groupId       String?
+  group         Group? @relation("GroupTeams",references: [id], fields: [groupId])
+
+  @@map("teams")
+}
+
+
+model Group {
+  id         String @id @unique @default(uuid())
+  name       String @unique
+  positions  String
+  rounds     Int @default(0)
+  clashes    String[] 
+  teams      Teams[] @relation("GroupTeams")
+
+  @@map("group")
+}
