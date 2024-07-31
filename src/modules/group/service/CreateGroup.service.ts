@@ -3,6 +3,7 @@ import { IGroupDTO } from '../dto/IGroupDTO';
 import { teamValidFunction } from '../utils/TeamValidFunction';
 import { NotAcceptableException } from '@nestjs/common';
 import { positionsFunction } from '../utils/PositionsFunction';
+import { NameGroups } from '@prisma/client';
 
 export class CreateGroupService {
   async execute({
@@ -12,13 +13,15 @@ export class CreateGroupService {
     nameTeamThree,
     nameTeamTwo,
   }: IGroupDTO) {
+    const groupName = nameGroup as NameGroups;
+
     const teamOne = await teamValidFunction(nameTeamOne);
     const teamTwo = await teamValidFunction(nameTeamTwo);
     const teamThree = await teamValidFunction(nameTeamThree);
     const teamFour = await teamValidFunction(nameTeamFour);
 
     const nameGroupInUse = await prisma.group.findUnique({
-      where: { name: nameGroup },
+      where: { name: groupName },
     });
 
     if (nameGroupInUse) {
@@ -27,7 +30,7 @@ export class CreateGroupService {
 
     const newGroup = await prisma.group.create({
       data: {
-        name: nameGroup,
+        name: groupName,
         positions: '',
         teams: {
           connect: [

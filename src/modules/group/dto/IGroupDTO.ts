@@ -1,5 +1,6 @@
+import { NameGroups } from '@prisma/client';
 export interface IGroupDTO {
-  nameGroup: string;
+  nameGroup: NameGroups;
   nameTeamOne: string;
   nameTeamTwo: string;
   nameTeamThree: string;

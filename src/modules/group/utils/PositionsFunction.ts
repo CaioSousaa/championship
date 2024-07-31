@@ -1,6 +1,7 @@
 import { prisma } from '../../../database/prisma';
+import { NameGroups } from '@prisma/client';
 
-export async function positionsFunction(nameGroup: string) {
+export async function positionsFunction(nameGroup: NameGroups) {
   const groupData = await prisma.group.findFirst({
     where: { name: nameGroup },
     include: { teams: true },
