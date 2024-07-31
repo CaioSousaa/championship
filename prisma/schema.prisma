@@ -30,11 +30,23 @@ model Teams {
 
 model Group {
   id         String @id @unique @default(uuid())
-  name       String @unique
+  name       NameGroups @unique
   positions  String
   rounds     Int @default(0)
   clashes    String[] 
   teams      Teams[] @relation("GroupTeams")
 
   @@map("group")
+}
+
+
+enum NameGroups {
+  GrupoA
+  GrupoB
+  GrupoC
+  GrupoD
+  GrupoE
+  GrupoF
+  GrupoG
+  GrupoH
 }
