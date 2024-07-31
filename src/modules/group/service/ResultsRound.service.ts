@@ -29,6 +29,10 @@ export class ResultsRoundService {
       throw new NotAcceptableException('group not exist');
     }
 
+    if (groupData.rounds + 1 > 3) {
+      throw new NotAcceptableException('number of maximum rounds reached');
+    }
+
     const rounds = groupData.rounds;
     const nameTeams = [];
 
@@ -53,16 +57,6 @@ export class ResultsRoundService {
           nameTeams.push(teamA, teamB);
         }
         break;
-
-      case 3:
-        for (let i = 6; i < 8; i++) {
-          const [teamA, teamB] = groupData.clashes[i].split('x');
-          nameTeams.push(teamA, teamB);
-        }
-        break;
-
-      default:
-        throw new NotAcceptableException('Invalid round number');
     }
 
     const teams = await Promise.all(
@@ -95,12 +89,14 @@ export class ResultsRoundService {
 
     const gamesResults = await Promise.all(updatePromises);
 
+    const addRound = groupData.rounds + 1;
+
     await prisma.group.update({
       where: {
         id: groupData.id,
       },
       data: {
-        rounds: +1,
+        rounds: addRound,
       },
     });
 
