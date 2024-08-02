@@ -23,6 +23,8 @@ model Teams {
   created_at    DateTime
   groupId       String?
   group         Group? @relation("GroupTeams",references: [id], fields: [groupId])
+  roundOf16Id   String?
+  roundOf16     RoundOf16? @relation(references: [id], fields: [roundOf16Id])
 
   @@map("teams")
 }
@@ -39,6 +41,16 @@ model Group {
   @@map("group")
 }
 
+
+model RoundOf16 {
+  id          String @id @unique @default(uuid()) 
+  teams       Teams[]
+  clashes     String[]
+  concluded   Boolean @default(false)
+  created_at  DateTime @default(now()) 
+
+  @@map("round_of_16")
+}
 
 enum NameGroups {
   GrupoA
