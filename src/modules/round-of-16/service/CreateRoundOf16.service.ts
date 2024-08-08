@@ -67,6 +67,7 @@ export class CreateRoundOf16Service {
         },
         clashes: clashes,
         created_at: new Date(),
+        classified: [],
       },
     });
 
