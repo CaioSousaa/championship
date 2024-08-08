@@ -8,23 +8,29 @@ datasource db {
 }
 
 model Teams {
-  id            String @id @unique @default(uuid())
-  name          String @unique
-  country       String
-  inGroup       Boolean @default(false)
-  qtdGames      Int @default(0)
-  victories     Int @default(0)
-  draws         Int @default(0)
-  defeats       Int @default(0)
-  points        Int @default(0)
-  scoredGoals   Int @default(0)
-  goalsBalance  Int @default(0)
-  concededGoals Int @default(0)
-  created_at    DateTime
-  groupId       String?
-  group         Group? @relation("GroupTeams",references: [id], fields: [groupId])
-  roundOf16Id   String?
-  roundOf16     RoundOf16? @relation(references: [id], fields: [roundOf16Id])
+  id              String @id @unique @default(uuid())
+  name            String @unique
+  country         String
+  inGroup         Boolean @default(false)
+  qtdGames        Int @default(0)
+  victories       Int @default(0)
+  draws           Int @default(0)
+  defeats         Int @default(0)
+  points          Int @default(0)
+  scoredGoals     Int @default(0)
+  goalsBalance    Int @default(0)
+  concededGoals   Int @default(0)
+  created_at      DateTime
+  groupId         String?
+  group           Group? @relation("GroupTeams",references: [id], fields: [groupId])
+  roundOf16Id     String?
+  roundOf16       RoundOf16? @relation(references: [id], fields: [roundOf16Id])
+  quarterFinalsId String?
+  quarterFinals   QuarterFinals? @relation(references: [id], fields: [quarterFinalsId])
+  semiFinalId     String?
+  semiFinal       Semifinal? @relation(references: [id], fields: [semiFinalId])
+  finalId         String?
+  final           Final? @relation("finalists", references: [id], fields: [finalId])
 
   @@map("teams")
 }
@@ -53,6 +59,36 @@ model RoundOf16 {
   @@map("round_of_16")
 }
 
+model QuarterFinals {
+  id          String @id @unique @default(uuid()) 
+  teams       Teams[]
+  clashes     String[]
+  classified  String[]
+  concluded   Boolean @default(false)
+  created_at  DateTime @default(now()) 
+  @@map("quarter_finals")
+}
+
+model Semifinal {
+  id          String @id @unique @default(uuid()) 
+  teams       Teams[]
+  clashes     String[]
+  classified  String[]
+  concluded   Boolean @default(false)
+  created_at  DateTime @default(now()) 
+
+  @@map("semifinal")
+}
+
+model Final {
+  id          String @id @unique @default(uuid()) 
+  teams       Teams[] @relation("finalists")
+  champion    String 
+  clashes     String[]
+  classified  String[]
+  concluded   Boolean @default(false)
+  created_at  DateTime @default(now()) 
+}
 enum NameGroups {
   GrupoA
   GrupoB
